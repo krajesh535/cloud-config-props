@@ -13,6 +13,13 @@ spring:
           uri: lb://DEPARTMENT-SERVICE
           predicates:
             - Path=/departments/**
+    bus:
+      id: ${spring.application.name}:${spring.profiles.active}:${random.uuid}
+      enabled: true
+      refresh:
+        enabled: true
+      env:
+        enabled: true
 
 eureka:
   client:
@@ -31,6 +38,8 @@ management:
       enabled: true # default value
     info:
       enabled: true
+  security:
+    enabled: false
 
 logging:
   pattern:

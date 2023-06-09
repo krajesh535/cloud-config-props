@@ -18,6 +18,8 @@ management:
       enabled: true
     gateway:
       enabled: true # default value
+  security:
+    enabled: false
 
 openapi:
   service:
@@ -38,3 +40,13 @@ logging:
 
 
 message: "FADASDS EMploee"
+
+spring:
+  cloud:
+    bus:
+      id: ${spring.application.name}:${spring.profiles.active}:${random.uuid}
+      enabled: true
+      refresh:
+        enabled: true
+      env:
+        enabled: true

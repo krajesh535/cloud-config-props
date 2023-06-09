@@ -18,6 +18,8 @@ management:
       enabled: true
     gateway:
       enabled: true # default value
+  security:
+    enabled: false
 
 openapi:
   service:
@@ -36,12 +38,12 @@ logging:
   pattern:
     level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 
-message: "FAERFFASA"
+message: "FASRAJE"
 
 spring:
   cloud:
     bus:
-      id: ${spring.application.name}:${spring.profiles.active}:${random.uuid} 
+      id: ${spring.application.name}:${spring.profiles.active}:${random.uuid}
       enabled: true
       refresh:
         enabled: true
