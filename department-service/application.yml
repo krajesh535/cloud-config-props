@@ -36,4 +36,14 @@ logging:
   pattern:
     level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 
-message: "FAER"
+message: "FAERFFASA"
+
+spring:
+  cloud:
+    bus:
+      id: ${spring.application.name}:${spring.profiles.active}:${random.uuid} 
+      enabled: true
+      refresh:
+        enabled: true
+      env:
+        enabled: true
