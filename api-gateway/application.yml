@@ -108,7 +108,7 @@ resilience4j:
         failureRateThreshold: 50                  #percent
         waitDurationInOpenState: 10000            #10 seconds
         registerHealthIndicator: true
-      employee-service:
+      department-service:
         slidingWindowSize: 10                     #unit request
         permittedNumberOfCallsInHalfOpenState: 5  #unit request
         failureRateThreshold: 50                  #percent
