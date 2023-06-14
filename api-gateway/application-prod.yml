@@ -1,0 +1,121 @@
+server:
+  port: 8090
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: employee-service-route
+          uri: lb://EMPLOYEE-SERVICE
+          predicates:
+            - Path=/employees/**
+          filters:
+            - AddRequestHeader=X-Client,web
+            - AddResponseHeader=X-Type,inorganic
+            - name: Retry
+              args:
+                retries: 3
+                methods: GET
+                backoff:
+                  firstBackoff: 50ms
+                  maxBackoff: 500ms
+            - name: CircuitBreaker
+              args:
+                name: employee-service
+                fallbackUri: forward:/emp-service-fallback
+
+        - id: department-service-route
+          uri: lb://DEPARTMENT-SERVICE
+          predicates:
+            - Path=/departments/**
+          filters:
+            - AddRequestHeader=X-Client,web
+            - AddResponseHeader=X-Type,inorganic
+            - name: Retry
+              args:
+                retries: 3
+                methods: GET
+                backoff:
+                  firstBackoff: 50ms
+                  maxBackoff: 500ms
+            - name: CircuitBreaker
+              args:
+                name: department-service
+                fallbackUri: forward:/dept-service-fallback
+    bus:
+      id: ${spring.application.name}:${spring.profiles.active}:${random.uuid}
+      enabled: true
+      refresh:
+        enabled: true
+      env:
+        enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"   #gateway, refresh, loggers, info, health
+  endpoint:
+    loggers:
+      enabled: true
+    gateway:
+      enabled: true # default value
+    info:
+      enabled: true
+  security:
+    enabled: false
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+
+springdoc:
+#  enable-native-support: true
+  webjars:
+    prefix: /openapi
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    defaultModelsExpandDepth: -1
+#    defaultModelsExpandPath: -1
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway Service
+        primaryName: API Gateway Service
+      - url: /employees/v3/api-docs
+        name: Employee Service
+        primaryName: Employee Service
+      - url: /departments/v3/api-docs
+        name: Department Service
+        primaryName: Department Service
+
+# https://cloud.spring.io/spring-cloud-static/spring-cloud-circuitbreaker/1.0.0.RC1/reference/html/
+#Circuit Braker Resilience4j
+resilience4j:
+  circuitbreaker:
+    instances:
+      employee-service:
+        slidingWindowSize: 10                     #unit request
+        permittedNumberOfCallsInHalfOpenState: 5  #unit request
+        failureRateThreshold: 50                  #percent # Failure rate threshold percentage
+        waitDurationInOpenState: 10000            #10 seconds
+        registerHealthIndicator: true
+      department-service:
+        slidingWindowSize: 10                     #unit request
+        permittedNumberOfCallsInHalfOpenState: 5  #unit request
+        failureRateThreshold: 50                  #percent
+        waitDurationInOpenState: 10000            #10 seconds
+        registerHealthIndicator: true
+  timelimiter:
+    instances:
+      sampahServie:
+        timeoutDuration: 2s
