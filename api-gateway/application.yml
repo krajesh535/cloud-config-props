@@ -98,6 +98,7 @@ springdoc:
         name: Department Service
         primaryName: Department Service
 
+# https://cloud.spring.io/spring-cloud-static/spring-cloud-circuitbreaker/1.0.0.RC1/reference/html/
 #Circuit Braker Resilience4j
 resilience4j:
   circuitbreaker:
@@ -105,7 +106,7 @@ resilience4j:
       employee-service:
         slidingWindowSize: 10                     #unit request
         permittedNumberOfCallsInHalfOpenState: 5  #unit request
-        failureRateThreshold: 50                  #percent
+        failureRateThreshold: 50                  #percent # Failure rate threshold percentage
         waitDurationInOpenState: 10000            #10 seconds
         registerHealthIndicator: true
       department-service:
