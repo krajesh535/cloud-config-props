@@ -49,3 +49,7 @@ spring:
         enabled: true
       env:
         enabled: true
+# Disable swagger ui in Prod env
+springfox:
+  documentation:
+    enabled: false
