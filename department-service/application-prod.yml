@@ -30,6 +30,7 @@ openapi:
 springdoc:
   api-docs:
     path: /departments/v3/api-docs
+    enabled: false  # Disable swagger api-docs in Prod env
   swagger-ui:
     path: /departments/swagger-ui.html
     defaultModelsExpandDepth: -1
