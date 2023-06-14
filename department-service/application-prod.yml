@@ -33,6 +33,7 @@ springdoc:
   swagger-ui:
     path: /departments/swagger-ui.html
     defaultModelsExpandDepth: -1
+    enabled: false  # Disable swagger ui in Prod env
 
 logging:
   pattern:
@@ -49,7 +50,3 @@ spring:
         enabled: true
       env:
         enabled: true
-# Disable swagger ui in Prod env
-springfox:
-  documentation:
-    enabled: false
