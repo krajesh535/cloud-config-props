@@ -39,7 +39,7 @@ logging:
     level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 
 
-message: "LOCAL TESTING"
+message: "LOCAL TESTING12"
 
 spring:
   cloud:
